@@ -1,0 +1,11 @@
+{
+    "verbose": true,
+    "watch": ["src"],
+    "ext": "ts",  
+    "ignore": [
+        ["src/**/*.spec.ts"],
+        "dist"
+    ],
+    "exec": "tsc && ts-node ./src/index.ts",
+    "delay": 5000
+}
