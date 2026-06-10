@@ -60,6 +60,6 @@ export class PessoaJuridica{
                "\n\tCNPJ: " + this._cnpj +
                "\n\tEmail: " + this._email +
                "\n\tTelefone: " + this._telefone +
-               "\n\tEndereço: " + this._endereco.toString;
+               "\n\tEndereço: " + this._endereco.toString();
     }
 }
