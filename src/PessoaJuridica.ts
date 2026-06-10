@@ -40,11 +40,7 @@ export class PessoaJuridica{
     }
 
     public set telefone(novoTelefone: string){
-        if(novoTelefone.length == 11){
             this._telefone = novoTelefone;
-        } else {
-            throw new RangeError("O atributo telefone não possui a quantidade correta de caracteres!");
-        }
     }
 
     public get endereco(): string{
@@ -57,5 +53,13 @@ export class PessoaJuridica{
         } else {
             throw new TypeError("Novo endereço não é instância da classe Endereco!");
         }
+    }
+
+    public toString(): string {
+        return "\n\tRazão Social: " + this._razaoSocial +
+               "\n\tCNPJ: " + this._cnpj +
+               "\n\tEmail: " + this._email +
+               "\n\tTelefone: " + this._telefone +
+               "\n\tEndereço: " + this._endereco.toString;
     }
 }
