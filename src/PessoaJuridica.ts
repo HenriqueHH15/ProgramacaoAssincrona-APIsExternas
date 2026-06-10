@@ -43,7 +43,7 @@ export class PessoaJuridica{
             this._telefone = novoTelefone;
     }
 
-    public get endereco(): string{
+    public get endereco(): Endereco{
         return this._endereco;
     }
 
