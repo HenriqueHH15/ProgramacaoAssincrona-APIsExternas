@@ -1,22 +1,22 @@
-import {PessoasJuridicas} from "./PessoasJuridicas";
+import {PessoaJuridica} from "./PessoaJuridica";
 
-export class RepositorioPessoaJuridica{
-    private _listaPessoasJuridicas: Array<PessoasJuridicas>;
+export class RepositorioPessoaJuridicas{
+    private _listaPessoaJuridicas: Array<PessoaJuridica>;
 
     constructor() {
-        this._listaPessoasJuridicas = [];
+        this._listaPessoaJuridicas = [];
     }
 
-    adicionar(empresa: PessoasJuridicas): boolean{
-        const existe = this._listaPessoasJuridicas.some((e) => e.cnpj === empresa.cnpj);
+    adicionar(empresa: PessoaJuridica): boolean{
+        const existe = this._listaPessoaJuridicas.some((e) => e.cnpj === empresa.cnpj);
         if (existe) {
             return false;
         }
-        this._listaPessoasJuridicas.push(empresa);
+        this._listaPessoaJuridicas.push(empresa);
         return true;
     }
 
-    listar(): Array<PessoasJuridicas>{
-        return this._listaPessoasJuridicas;
+    listar(): Array<PessoaJuridica>{
+        return this._listaPessoaJuridicas;
     }
 }
