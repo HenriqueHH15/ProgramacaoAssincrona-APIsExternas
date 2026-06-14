@@ -58,7 +58,7 @@ constructor(cep: string, logradouro: string, bairro: string, estado: string, ddd
         if(Novoddd.length == 2){
         this.ddd = Novoddd;
     } else {
-        throw new RangeError("O ddd possui uma quantidade incorreta de caracteres")
+        throw new RangeError("O ddd possui uma quantidade incorreta de caracteres");
 
     }
     } 

@@ -34,27 +34,35 @@ async function consultarCEP (cep: string) : Promise<JSON> {
     }
 }
 
-async function seiLa (dados: Array<string>) : Array<PessoaJuridica> {
+                                                                                //uso do any para resolver erro "não possui retorno do tipo undefined"
+async function fazerRequisicoes (dados: Array<string>) : Promise<RepositorioPessoaJuridicas | any> {
     var dados: Array<string> = dados;
+    const repositorio: RepositorioPessoaJuridicas = new RepositorioPessoaJuridicas();
 
     try {
         for(let i = 0; i < dados.length; i++){
-            setTimeout(async () => {
+            //setTimeout(async () => {
                 const jsonCnpj: JSON | any = await consultarCNPJ(dados[i]);
 
+                await new Promise(resolve => setTimeout(resolve, 21000));
+                
                 const cepPonto: Array<string> = jsonCnpj.cep.split(".");
                 const cepTracinho: Array<string> = cepPonto[1].split("-");
                 const cep: string = cepPonto[0] + cepTracinho[0] + cepTracinho[1];
 
                 const jsonCep: JSON | any = await consultarCEP(cep);
+
                 const endereco: Endereco = new Endereco(cep, jsonCep.logradouro, jsonCep.bairro, jsonCep.estado, jsonCep.ddd);
 
                 const pessoaJuridica: PessoaJuridica = new PessoaJuridica(jsonCnpj.cnpj, jsonCnpj.nome, jsonCnpj.email, jsonCnpj.telefone, endereco);
 
-                
-            }, 21000);
+                repositorio.adicionar(pessoaJuridica);
+            //}, 21000);
         }
-    } catch (e) {
-
+        return repositorio;
+    } catch (error) {
+        if(error instanceof SyntaxError){
+            return error.message;
+        }
     }
 }
