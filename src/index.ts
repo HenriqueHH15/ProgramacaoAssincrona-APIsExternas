@@ -2,7 +2,7 @@ import { Endereco } from "./Endereco";
 import { PessoaJuridica } from "./PessoaJuridica";
 import { RepositorioPessoaJuridicas } from "./RepositorioPessoaJuridica";
 
-const dados: Array<string> = [
+const dadosCorretos: Array<string> = [
     "15436940000103",
     "33000167000101",
     "13347016000117",
@@ -10,6 +10,13 @@ const dados: Array<string> = [
     "16670085000155",
     "84429695000111",
     "33611500000119"
+];
+
+const dadosErrados: Array<string> = [
+    "1543694000010",
+    "330001670001010",
+    "12345678900123",
+    "3359251000015a",
 ];
 
 async function consultarCNPJ (cnpj: string) : Promise<JSON> {
@@ -65,4 +72,16 @@ async function fazerRequisicoes (dados: Array<string>) : Promise<RepositorioPess
             return error.message;
         }
     }
+
 }
+
+const retorno: RepositorioPessoaJuridicas | any = fazerRequisicoes(dadosCorretos);
+
+if (retorno instanceof RepositorioPessoaJuridicas) {
+    retorno.listar.forEach(element => {
+        console.log(element.toString());
+    });
+} else {
+    console.log(retorno);
+}
+
