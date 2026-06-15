@@ -53,6 +53,8 @@ async function fazerRequisicoes (dados: Array<string>) : Promise<RepositorioPess
 
                 //await new Promise(resolve => setTimeout(resolve, 21000));
                 
+                                                //retira os pontos e traços do cep e coloca string vazia no lugar
+                //const cep = jsonCnpj.cep.replace(/\D/g, "");
                 const cepPonto: Array<string> = jsonCnpj.cep.split(".");
                 const cepTracinho: Array<string> = cepPonto[1].split("-");
                 const cep: string = cepPonto[0] + cepTracinho[0] + cepTracinho[1];
@@ -93,4 +95,5 @@ if (retorno instanceof RepositorioPessoaJuridicas) {
 } else {
     console.log(retorno);
 }
+
 

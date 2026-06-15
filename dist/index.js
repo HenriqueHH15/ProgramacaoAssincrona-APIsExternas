@@ -47,6 +47,8 @@ async function fazerRequisicoes(dados) {
             setTimeout(async () => {
                 const jsonCnpj = await consultarCNPJ(dados[i]);
                 //await new Promise(resolve => setTimeout(resolve, 21000));
+                //retira os pontos e traços do cep e coloca string vazia no lugar
+                //const cep = jsonCnpj.cep.replace(/\D/g, "");
                 const cepPonto = jsonCnpj.cep.split(".");
                 const cepTracinho = cepPonto[1].split("-");
                 const cep = cepPonto[0] + cepTracinho[0] + cepTracinho[1];
