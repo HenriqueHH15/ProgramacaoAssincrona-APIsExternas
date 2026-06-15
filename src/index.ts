@@ -26,18 +26,18 @@ async function consultarCNPJ (cnpj: string) : Promise<JSON> {
     if(response.ok){
         return response.json();
     } else {
-        throw new SyntaxError(`HTTP error! Status: ${response.status}`);
+        throw new Error("" + response.status);
     }
 }
 
 async function consultarCEP (cep: string) : Promise<JSON> {
-    const url = `viacep.com.br/ws/${cep}/json/`;
+    const url = `https://viacep.com.br/ws/${cep}/json/`;
     const response: Response = await fetch(url);
 
     if(response.ok){
         return response.json();
     } else {
-        throw new SyntaxError(`HTTP error! Status: ${response.status}`);
+        throw new Error("" + response.status);
     }
 }
 
@@ -48,10 +48,10 @@ async function fazerRequisicoes (dados: Array<string>) : Promise<RepositorioPess
 
     try {
         for(let i = 0; i < dados.length; i++){
-            //setTimeout(async () => {
+            setTimeout(async () => {
                 const jsonCnpj: JSON | any = await consultarCNPJ(dados[i]);
 
-                await new Promise(resolve => setTimeout(resolve, 21000));
+                //await new Promise(resolve => setTimeout(resolve, 21000));
                 
                 const cepPonto: Array<string> = jsonCnpj.cep.split(".");
                 const cepTracinho: Array<string> = cepPonto[1].split("-");
@@ -59,16 +59,25 @@ async function fazerRequisicoes (dados: Array<string>) : Promise<RepositorioPess
 
                 const jsonCep: JSON | any = await consultarCEP(cep);
 
+                if("erro" in jsonCep){  //response.json.erro){
+                    throw new Error("O CEP não existe!");
+                } else {
+
                 const endereco: Endereco = new Endereco(cep, jsonCep.logradouro, jsonCep.bairro, jsonCep.estado, jsonCep.ddd);
 
                 const pessoaJuridica: PessoaJuridica = new PessoaJuridica(jsonCnpj.cnpj, jsonCnpj.nome, jsonCnpj.email, jsonCnpj.telefone, endereco);
 
                 repositorio.adicionar(pessoaJuridica);
-            //}, 21000);
+                }
+            }, 21000);
         }
         return repositorio;
-    } catch (error) {
-        if(error instanceof SyntaxError){
+    } catch (error: any) {
+        if(error.message == "400"){
+            return "O CNPJ não existe ou o CEP está com formato inválido!";
+        } else if (error.message == "404"){
+            return "O CNPJ está no formato inválido!";
+        } else {
             return error.message;
         }
     }
@@ -78,7 +87,7 @@ async function fazerRequisicoes (dados: Array<string>) : Promise<RepositorioPess
 const retorno: RepositorioPessoaJuridicas | any = fazerRequisicoes(dadosCorretos);
 
 if (retorno instanceof RepositorioPessoaJuridicas) {
-    retorno.listar.forEach(element => {
+    retorno.listar().forEach(element => {
         console.log(element.toString());
     });
 } else {

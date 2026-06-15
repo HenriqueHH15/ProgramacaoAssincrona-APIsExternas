@@ -15,7 +15,7 @@ class RepositorioPessoaJuridicas {
         return true;
     }
     listar() {
-        return this._listaPessoaJuridicas;
+        return this._listaPessoaJuridicas.slice();
     }
 }
 exports.RepositorioPessoaJuridicas = RepositorioPessoaJuridicas;
