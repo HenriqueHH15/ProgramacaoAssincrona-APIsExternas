@@ -48,11 +48,7 @@ export class PessoaJuridica{
     }
 
     public set endereco(novoEndereco: Endereco){
-        if(novoEndereco instanceof Endereco){
             this._endereco = novoEndereco;
-        } else {
-            throw new TypeError("Novo endereço não é instância da classe Endereco!");
-        }
     }
 
     public toString(): string {

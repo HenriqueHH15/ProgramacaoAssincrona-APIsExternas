@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PessoaJuridica = void 0;
-const Endereco_1 = require("./Endereco");
 class PessoaJuridica {
     _cnpj;
     _razaoSocial;
@@ -40,12 +39,7 @@ class PessoaJuridica {
         return this._endereco;
     }
     set endereco(novoEndereco) {
-        if (novoEndereco instanceof Endereco_1.Endereco) {
-            this._endereco = novoEndereco;
-        }
-        else {
-            throw new TypeError("Novo endereço não é instância da classe Endereco!");
-        }
+        this._endereco = novoEndereco;
     }
     toString() {
         return "\n\tRazão Social: " + this._razaoSocial +

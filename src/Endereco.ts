@@ -19,11 +19,7 @@ constructor(cep: string, logradouro: string, bairro: string, estado: string, ddd
     }
 
     public set cep(Novocep: string){
-        if(Novocep.length == 8){
         this.cep = Novocep;
-    } else {
-         throw new RangeError("O cep possui uma quantidade incorreta de caracteres")
-    }
     }
 
     public get logradouro(): string {
@@ -55,12 +51,7 @@ constructor(cep: string, logradouro: string, bairro: string, estado: string, ddd
     }
     
     public set ddd(Novoddd: string) {
-        if(Novoddd.length == 2){
         this.ddd = Novoddd;
-    } else {
-        throw new RangeError("O ddd possui uma quantidade incorreta de caracteres");
-
-    }
     } 
 
     public toString(): string{

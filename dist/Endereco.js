@@ -18,12 +18,7 @@ class Endereco {
         return this._cep;
     }
     set cep(Novocep) {
-        if (Novocep.length == 8) {
-            this.cep = Novocep;
-        }
-        else {
-            throw new RangeError("O cep possui uma quantidade incorreta de caracteres");
-        }
+        this.cep = Novocep;
     }
     get logradouro() {
         return this._logradouro;
@@ -47,12 +42,7 @@ class Endereco {
         return this._ddd;
     }
     set ddd(Novoddd) {
-        if (Novoddd.length == 2) {
-            this.ddd = Novoddd;
-        }
-        else {
-            throw new RangeError("O ddd possui uma quantidade incorreta de caracteres");
-        }
+        this.ddd = Novoddd;
     }
     toString() {
         return '\n\t"cep" : "' + this._cep + '" ,' +
