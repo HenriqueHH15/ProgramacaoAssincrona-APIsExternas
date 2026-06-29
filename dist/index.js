@@ -50,9 +50,10 @@ function delay(ms) {
     });
 }
 async function fazerRequisicoes(dados) {
-    var dados = dados;
+    //var dados: Array<string> = dados;
     const repositorio = new RepositorioPessoaJuridica_1.RepositorioPessoaJuridicas();
-    for (let i = 0; i < dados.length; i++) {
+    let i = 0;
+    while (i < dados.length) {
         try {
             //setTimeout(async () => {
             const jsonCnpj = await consultarCNPJ(dados[i]);
@@ -77,6 +78,7 @@ async function fazerRequisicoes(dados) {
                 console.log("Empresa criada: " + pessoaJuridica.razaoSocial);
                 const adicionou = repositorio.adicionar(pessoaJuridica);
                 if (adicionou) {
+                    i++;
                     console.log("Empresa adicionada no repositório com sucesso.");
                 }
                 else {
@@ -92,6 +94,9 @@ async function fazerRequisicoes(dados) {
             else if (error.message == "404") {
                 console.log("O CNPJ está no formato inválido!");
             }
+            else if (error.message == "429") {
+                console.log("Número máximo de requisições atingido.");
+            }
             else {
                 console.log(error.message);
             }
@@ -103,7 +108,7 @@ async function fazerRequisicoes(dados) {
     return repositorio.listar();
 }
 async function mostrarResultado() {
-    const retorno = await fazerRequisicoes(dadosErrados);
+    const retorno = await fazerRequisicoes(dadosCorretos);
     console.log(`========== LISTANDO EMPRESAS ==========\n`);
     retorno.forEach(element => {
         console.log(element.toString());

@@ -54,10 +54,11 @@ function delay(ms: number) {
 }
 
 async function fazerRequisicoes(dados: Array<string>): Promise<Array<PessoaJuridica>> {
-    var dados: Array<string> = dados;
+    //var dados: Array<string> = dados;
     const repositorio = new RepositorioPessoaJuridicas();
 
-    for (let i = 0; i < dados.length; i++) {
+    let i = 0;
+    while(i < dados.length){
         try {
             //setTimeout(async () => {
             const jsonCnpj: JSON | any = await consultarCNPJ(dados[i]);
@@ -79,6 +80,7 @@ async function fazerRequisicoes(dados: Array<string>): Promise<Array<PessoaJurid
             const jsonCep: JSON | any = await consultarCEP(cep);
 
             if ("erro" in jsonCep) {  //response.json.erro){
+                
                 throw new Error("O CEP não existe!");
             } else {
 
@@ -90,17 +92,23 @@ async function fazerRequisicoes(dados: Array<string>): Promise<Array<PessoaJurid
 
                 const adicionou = repositorio.adicionar(pessoaJuridica);
                 if(adicionou){
+                    i++;
                     console.log("Empresa adicionada no repositório com sucesso.");
+
                 } else {
+                    
                     throw new Error("Empresa já existe no repositório!");
                 }
             }
             //}, 21000);
         } catch (error: any) {
+           
             if (error.message == "400") {
                 console.log("O CNPJ não existe ou o CEP está com formato inválido!");
             } else if (error.message == "404") {
                 console.log("O CNPJ está no formato inválido!");
+            } else if (error.message == "429"){
+                console.log("Número máximo de requisições atingido.")
             } else {
                 console.log(error.message);
             }
